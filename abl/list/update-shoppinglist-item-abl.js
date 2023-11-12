@@ -7,10 +7,11 @@ const schema = {
     type: "object",
     properties: {
         id: { type: "string" },
+        itemId: { type: "string" },
         name: { type: "string" },
         isCompleted: { type: "boolean" }
     },
-    required: ["id"],
+    required: ["id", "itemId"],
     anyOf: [
         { required: ["name"] },
         { required: ["isCompleted"] }
@@ -25,9 +26,9 @@ const UpdateShoppingListItemAbl = async (req, res) => {
         return
     }
 
-    const { id, name, isCompleted } = req.body
+    const { id, itemId, name, isCompleted } = req.body
 
-    const result = await dao.updateShoppingListItem(id, name, isCompleted)
+    const result = await dao.updateShoppingListItem(id, itemId, name, isCompleted)
     res.json(result)
 }
 

@@ -18,49 +18,49 @@ const RemoveShoppingListUserAbl = require('../abl/list/remove-shoppinglist-user-
 
 // shopping-list
 
-router.get('/shopping-list', async (req, res) => {
+router.get('', async (req, res) => {
     await GetAllShoppingListsAbl(req, res)
 })
 
-router.post('/shopping-list', async (req, res) => {
+router.post('', async (req, res) => {
     await CreateShoppingListAbl(req, res)
 })
 
-router.get('/shopping-list/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     await GetShoppingListAbl(req, res)
 })
 
-router.put('/shopping-list/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     await UpdateShoppingListAbl(req, res)
 })
 
-router.delete('/shopping-list/:id', async (req, res) => {    
+router.delete('/:id', async (req, res) => {    
     await RemoveShoppingListAbl(req, res)
 })
 
 
 // shopping-list-item
 
-router.post('/shopping-list/:id/item', async (req, res) => {
+router.post('/:id/item', async (req, res) => {
     await AddShoppingListItemAbl(req, res)
 })
 
-router.put('/shopping-list/:id/item/:itemId', async (req, res) => {
+router.put('/:id/item/:itemId', async (req, res) => {
     await UpdateShoppingListItemAbl(req, res)
 })
 
-router.delete('/shopping-list/:id/item/:itemId', async (req, res) => {  
+router.delete('/:id/item/:itemId', async (req, res) => {  
     await RemoveShoppingListItemAbl(req, res)
 })
 
 
 // shopping-list-user
 
-router.post('/shopping-list/:id/user', async (req, res) => {
+router.post('/:id/user', async (req, res) => {
     await AddShoppingListUserAbl(req, res)
 })
 
-router.delete('/shopping-list/:id/user/:userId', async (req, res) => {
+router.delete('/:id/user/:userId', async (req, res) => {
     await RemoveShoppingListUserAbl(req, res)
 })
 

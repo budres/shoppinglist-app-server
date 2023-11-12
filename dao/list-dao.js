@@ -4,43 +4,43 @@ class ListDao {
     }
 
     async getAllShoppingLists() {
-        return
+        return "getAllShoppingLists"
     }
 
     async createShoppingList() {
-        return
+        return "createShoppingList"
     }
 
     async getShoppingList() {
-        return
+        return "getShoppingList"
     }
 
     async updateShoppingList() {
-        return
+        return "updateShoppingList"
     }
 
     async removeShoppingList() {
-        return
+        return "removeShoppingList"
     }
 
     async addShoppingListItem() {
-        return
+        return "addShoppingListItem"
     }
 
     async updateShoppingListItem() {
-        return
+        return "updateShoppingListItem"
     }
 
     async removeShoppingListItem() {
-        return
+        return "removeShoppingListItem"
     }
 
     async addShoppingListUser() {
-        return
+        return "addShoppingListUser"
     }
 
     async removeShoppingListUser() {
-        return
+        return "removeShoppingListUser"
     }
 }
 

@@ -7,12 +7,12 @@ const schema = {
     type: "object",
     properties: {
         id: { type: "string" },
-        name: { type: "string" }
+        userId: { type: "string" }
     },
-    required: ["id", "name"]
+    required: ["id", "userId"]
 }
 
-const AddShoppingListItemAbl = async (req, res) => {
+const AddShoppingListUserAbl = async (req, res) => {
     const ajv = new Ajv()
     const valid = ajv.validate(schema, req.body)
     if (!valid) {
@@ -20,10 +20,10 @@ const AddShoppingListItemAbl = async (req, res) => {
         return
     }
 
-    const { id, name } = req.body
+    const { id, userId } = req.body
 
-    const result = await dao.addShoppingListItem(id, name)
+    const result = await dao.addShoppingListUser(id, userId)
     res.json(result)
 }
 
-module.exports = AddShoppingListItemAbl
+module.exports = AddShoppingListUserAbl

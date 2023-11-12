@@ -6,9 +6,10 @@ const dao = new ListDao()
 const schema = {
     type: "object",
     properties: {
-        name: { type: "string" }
+        id: { type: "string" },
+        itemName: { type: "string" }
     },
-    required: ["name"]
+    required: ["id", "itemName"]
 }
 
 const AddShoppingListItemAbl = async (req, res) => {
@@ -19,9 +20,9 @@ const AddShoppingListItemAbl = async (req, res) => {
         return
     }
 
-    const { id, name } = req.body
+    const { id, itemName } = req.body
 
-    const result = await dao.addShoppingListItem(id, name)
+    const result = await dao.addShoppingListItem(id, itemName)
     res.json(result)
 }
 
