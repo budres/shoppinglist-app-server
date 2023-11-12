@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 
-const listRouter = require(".controller/list-controller")
+const listRouter = require("./controller/list-controller")
 
 const PORT = process.env.PORT || 8000
 
