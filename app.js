@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
     res.json({message: "Hello World"})
 })
 
-app.use("/shopping-list", listRouter)
+app.use("/shopping-lists", listRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)

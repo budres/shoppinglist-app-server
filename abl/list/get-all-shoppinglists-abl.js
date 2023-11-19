@@ -1,10 +1,9 @@
-const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')   
 
-const dao = new ListDao()
+const listDao = new ListDao()
 
 const GetAllShoppingListsAbl = async (req, res) => {
-    const result = await dao.getAllShoppingLists()
+    const result = await listDao.getAllShoppingLists()
     res.json(result)
 }
 

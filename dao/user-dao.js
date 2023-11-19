@@ -1,17 +1,6 @@
-import {v4 as uuidv4} from 'uuid';
+const {v4: uuid} = require('uuid')
+const USERS = require('./USERS')
 
-let USERS = [
-    {
-        id: "1",
-        name: "User 1",
-        tag: "@user1",
-    },
-    {
-        id: "2",
-        name: "User 2",
-        tag: "@user2",
-    }
-]
 
 class UserDao {
     constructor(db) {
@@ -32,7 +21,7 @@ class UserDao {
 
     async createUser(name, tag) {
         const user = {
-            id: uuidv4(),
+            id: uuid(),
             name,
             tag
         }

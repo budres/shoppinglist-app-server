@@ -1,17 +1,25 @@
 const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
+const UserDao = require('../../dao/user-dao')
 
-const dao = new ListDao()
+const listDao = new ListDao()
+const userDao = new UserDao()
 
-const schema = {
+const paramsSchema = {
     type: "object",
     properties: {
         id: { type: "string" },
         itemId: { type: "string" },
+    },
+    required: ["id", "itemId"]
+}
+
+const bodySchema = {
+    type: "object",
+    properties: {
         name: { type: "string" },
         isCompleted: { type: "boolean" }
     },
-    required: ["id", "itemId"],
     anyOf: [
         { required: ["name"] },
         { required: ["isCompleted"] }
@@ -20,16 +28,31 @@ const schema = {
 
 const UpdateShoppingListItemAbl = async (req, res) => {
     const ajv = new Ajv()
-    const valid = ajv.validate(schema, req.body)
-    if (!valid) {
+
+    const validParams = ajv.validate(paramsSchema, req.params)
+    if (!validParams) {
         res.status(400).json(ajv.errors)
         return
     }
+    const { id, itemId } = req.params
 
-    const { id, itemId, name, isCompleted } = req.body
+    const validBody = ajv.validate(bodySchema, req.body)
+    if (!validBody) {
+        res.status(400).json(ajv.errors)
+        return
+    }
+    const { name, isCompleted } = req.body
 
-    const result = await dao.updateShoppingListItem(id, itemId, name, isCompleted)
-    res.json(result)
+    let result = await listDao.updateShoppingListItem(id, itemId, name, isCompleted)
+    
+    const members = await userDao.getUsersById(result.members)
+    const owner = members.find(member => member.id === result.owner)
+
+    res.json({
+        ...result,
+        members,
+        owner
+    })
 }
 
 module.exports = UpdateShoppingListItemAbl

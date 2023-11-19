@@ -1,9 +1,11 @@
 const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
+const UserDao = require('../../dao/user-dao')
 
-const dao = new ListDao()
+const listDao = new ListDao()
+const userDao = new UserDao()
 
-const schema = {
+const paramsSchema = {
     type: "object",
     properties: {
         id: { type: "string" },
@@ -14,16 +16,25 @@ const schema = {
 
 const RemoveShoppingListItemAbl = async (req, res) => {
     const ajv = new Ajv()
-    const valid = ajv.validate(schema, req.body)
-    if (!valid) {
+    
+    const validParams = ajv.validate(paramsSchema, req.params)
+    if (!validParams) {
         res.status(400).json(ajv.errors)
         return
     }
 
-    const { id, itemId } = req.body
+    const { id, itemId } = req.params
 
-    const result = await dao.removeShoppingListItem(id, itemId)
-    res.json(result)
+    let result = await listDao.removeShoppingListItem(id, itemId)
+    
+    const members = await userDao.getUsersById(result.members)
+    const owner = members.find(member => member.id === result.owner)
+
+    res.json({
+        ...result,
+        members,
+        owner
+    })
 }
 
 module.exports = RemoveShoppingListItemAbl

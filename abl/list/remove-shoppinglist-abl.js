@@ -1,9 +1,9 @@
 const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
 
-const dao = new ListDao()
+const listDao = new ListDao()
 
-const schema = {
+const paramsSchema = {
     type: "object",
     properties: {
         id: { type: "string" }
@@ -13,15 +13,15 @@ const schema = {
 
 const RemoveShoppingListAbl = async (req, res) => {
     const ajv = new Ajv()
-    const valid = ajv.validate(schema, req.body)
-    if (!valid) {
+
+    const validParams = ajv.validate(paramsSchema, req.params)
+    if (!validParams) {
         res.status(400).json(ajv.errors)
         return
     }
+    const { id } = req.params
 
-    const { id } = req.body
-
-    const result = await dao.removeShoppingList(id)
+    const result = await listDao.removeShoppingList(id)
     res.json(result)
 }
 

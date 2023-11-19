@@ -41,26 +41,26 @@ router.delete('/:id', async (req, res) => {
 
 // shopping-list-item
 
-router.post('/:id/item', async (req, res) => {
+router.post('/:id/items', async (req, res) => {
     await AddShoppingListItemAbl(req, res)
 })
 
-router.put('/:id/item/:itemId', async (req, res) => {
+router.put('/:id/items/:itemId', async (req, res) => {
     await UpdateShoppingListItemAbl(req, res)
 })
 
-router.delete('/:id/item/:itemId', async (req, res) => {  
+router.delete('/:id/items/:itemId', async (req, res) => {  
     await RemoveShoppingListItemAbl(req, res)
 })
 
 
 // shopping-list-user
 
-router.post('/:id/user', async (req, res) => {
+router.post('/:id/users', async (req, res) => {
     await AddShoppingListUserAbl(req, res)
 })
 
-router.delete('/:id/user/:userId', async (req, res) => {
+router.delete('/:id/users/:userId', async (req, res) => {
     await RemoveShoppingListUserAbl(req, res)
 })
 

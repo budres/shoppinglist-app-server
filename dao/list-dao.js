@@ -1,53 +1,5 @@
-import { v4 as uuid } from 'uuid';
-
-let SHOPPING_LISTS = [
-    {
-        id: "1",
-        name: "List 1",
-        isArchived: false,
-        createdAt: new Date(),
-        ownedBy: "1",
-        users: [
-            "1",
-            "2"
-        ],
-        items: [
-            {
-                id: "1",
-                name: "Item 1",
-                isCompleted: false
-            },
-            {
-                id: "2",
-                name: "Item 2",
-                isCompleted: false
-            }
-        ]
-    },
-    {
-        id: "2",
-        name: "List 2",
-        isArchived: false,
-        createdAt: new Date()-10000,
-        ownedBy: "2",
-        users: [
-            "1",
-            "2"
-        ],
-        items: [
-            {
-                id: "1",
-                name: "Item 1",
-                isCompleted: false
-            },
-            {
-                id: "2",
-                name: "Item 2",
-                isCompleted: false
-            }
-        ]
-    }
-]
+const {v4: uuid} = require('uuid')
+const SHOPPING_LISTS = require('./SHOPPING_LISTS')
 
 class ListDao {
     constructor(db) {
@@ -72,8 +24,8 @@ class ListDao {
             name,
             isArchived: false,
             createdAt: new Date(),
-            ownedBy: userId,
-            users: [userId],
+            owner: userId,
+            members: [userId],
             items: []
         }
 
@@ -162,7 +114,7 @@ class ListDao {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
         let list = SHOPPING_LISTS[idx]
 
-        list.users.push(userId)
+        list.members.push(userId)
 
         SHOPPING_LISTS[idx] = list
 
@@ -174,10 +126,10 @@ class ListDao {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
         let list = SHOPPING_LISTS[idx]
 
-        const userIdx = list.users.findIndex(user => user.id === userId)
-        let user = list.users[userIdx]
+        const userIdx = list.members.findIndex(user => user.id === userId)
+        let user = list.members[userIdx]
 
-        list.users.splice(userIdx, 1)
+        list.members.splice(userIdx, 1)
         SHOPPING_LISTS[idx] = list
 
         return list
