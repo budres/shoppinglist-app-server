@@ -1,19 +1,21 @@
+// shopping list management
+
 const express = require('express')
 const router = express.Router()
 
-const GetAllShoppingListsAbl = require('../abl/list/get-all-shoppinglists-abl')
+const GetAllShoppingListsAbl = require('../abl/list/get-all-lists-abl')
 
-const CreateShoppingListAbl = require('../abl/list/create-shoppinglist-abl')
-const GetShoppingListAbl = require('../abl/list/get-shoppinglist-abl')
-const UpdateShoppingListAbl = require('../abl/list/update-shoppinglist-abl')    
-const RemoveShoppingListAbl = require('../abl/list/remove-shoppinglist-abl')
+const CreateShoppingListAbl = require('../abl/list/create-list-abl')
+const GetShoppingListAbl = require('../abl/list/get-list-abl')
+const UpdateShoppingListAbl = require('../abl/list/update-list-abl')    
+const RemoveShoppingListAbl = require('../abl/list/remove-list-abl')
 
-const AddShoppingListItemAbl = require('../abl/list/add-shoppinglist-item-abl')
-const UpdateShoppingListItemAbl = require('../abl/list/update-shoppinglist-item-abl')
-const RemoveShoppingListItemAbl = require('../abl/list/remove-shoppinglist-item-abl')
+const AddShoppingListItemAbl = require('../abl/list/add-item-abl')
+const UpdateShoppingListItemAbl = require('../abl/list/update-item-abl')
+const RemoveShoppingListItemAbl = require('../abl/list/remove-item-abl')
 
-const AddShoppingListUserAbl = require('../abl/list/add-shoppinglist-user-abl')
-const RemoveShoppingListUserAbl = require('../abl/list/remove-shoppinglist-user-abl')
+const AddShoppingListUserAbl = require('../abl/list/add-user-abl')
+const RemoveShoppingListUserAbl = require('../abl/list/remove-user-abl')
 
 
 // shopping-list

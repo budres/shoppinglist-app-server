@@ -19,11 +19,12 @@ class UserDao {
         return USERS.find(user => user.tag === tag)
     }
 
-    async createUser(name, tag) {
+    async createUser(name, tag, password) {
         const user = {
             id: uuid(),
             name,
-            tag
+            tag,
+            password
         }
 
         USERS.push(user)
