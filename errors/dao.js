@@ -6,4 +6,4 @@ const DAO_ERRORS = {
     userNotMember: 'ERR_USER_NOT_MEMBER'
 }
 
-module.exports =  DAO_ERRORS 
+module.exports =  DAO_ERRORS

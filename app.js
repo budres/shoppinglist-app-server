@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 
-//const listRouter = require("./controller/list-controller")
+const listRouter = require("./controller/list-controller")
 const userRouter = require("./controller/user-controller")
 
 const PORT = 8000
@@ -17,7 +17,7 @@ app.get(prefix + "/", (req, res) => {
 
 app.use(prefix + '/auth', userRouter)
 
-//app.use(prefix + "/shopping-lists", listRouter)
+app.use(prefix + "/shopping-lists", listRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
