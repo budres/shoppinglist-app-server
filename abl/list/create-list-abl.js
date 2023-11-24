@@ -23,8 +23,9 @@ const CreateShoppingListAbl = async (req, res) => {
     }
 
     const { name } = req.body
+    const { id } = req.user
 
-    let result = await listDao.createShoppingList(name, "session")
+    let result = await listDao.createShoppingList(name, id)
 
     const members = await userDao.getUsersById(result.members)
     const owner = members.find(member => member.id === result.owner)

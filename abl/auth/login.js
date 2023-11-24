@@ -1,6 +1,7 @@
 const Ajv = require('ajv')
 const UserDao = require('../../dao/user-dao')
-const NewJWT = require('./token-manager')
+const {NewJWT} = require('./token-manager')
+const bcrypt = require('bcrypt')
 
 const userDao = new UserDao()
 

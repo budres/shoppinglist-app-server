@@ -2,6 +2,8 @@ const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
 const UserDao = require('../../dao/user-dao')
 
+const isOwner = require('../../abl/utils/user-validation')
+
 const listDao = new ListDao()
 const userDao = new UserDao()
 
@@ -26,6 +28,14 @@ const bodySchema = {
 }
 
 const UpdateShoppingListAbl = async (req, res) => {
+    const userId = req.user.id
+    const { id } = req.params
+
+    if (!await isOwner(userId, id)) {
+        res.status(403).json({ message: 'Forbidden' })
+        return
+    }
+
     const ajv = new Ajv()
 
     const validParams = ajv.validate(paramsSchema, req.params)
@@ -33,7 +43,6 @@ const UpdateShoppingListAbl = async (req, res) => {
         res.status(400).json(ajv.errors)
         return
     }
-    const { id } = req.params
 
     const validBody = ajv.validate(bodySchema, req.body)
     if (!validBody) {

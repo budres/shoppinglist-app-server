@@ -1,26 +1,24 @@
 // user management - login, register, logout
 
 const express = require('express')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 
 const router = express.Router()
 
-const createUserAbl = require('../abl/user/create-abl')
-
+const register = require('../abl/auth/register')
 const login = require('../abl/auth/login')
 const logout = require('../abl/auth/logout')
 
+const {VerifyJWT} = require('../abl/auth/token-manager')
 
 router.post('/register', async (req, res) => {
-    await createUserAbl(req, res)
+    await register(req, res)
 })
 
 router.post('/login', async (req, res) => {
     await login(req, res)
 })
 
-router.post('/logout', async (req, res) => {
+router.post('/logout', VerifyJWT, async (req, res) => {
     await logout(req, res)
 })  
 

@@ -17,52 +17,53 @@ const RemoveShoppingListItemAbl = require('../abl/list/remove-item-abl')
 const AddShoppingListUserAbl = require('../abl/list/add-user-abl')
 const RemoveShoppingListUserAbl = require('../abl/list/remove-user-abl')
 
+const {VerifyJWT} = require('../abl/auth/token-manager')
 
 // shopping-list
 
-router.get('', async (req, res) => {
+router.get('', VerifyJWT, async (req, res) => {
     await GetAllShoppingListsAbl(req, res)
 })
 
-router.post('', async (req, res) => {
+router.post('', VerifyJWT, async (req, res) => {
     await CreateShoppingListAbl(req, res)
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', VerifyJWT, async (req, res) => {
     await GetShoppingListAbl(req, res)
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', VerifyJWT, async (req, res) => {
     await UpdateShoppingListAbl(req, res)
 })
 
-router.delete('/:id', async (req, res) => {    
+router.delete('/:id', VerifyJWT, async (req, res) => {    
     await RemoveShoppingListAbl(req, res)
 })
 
 
 // shopping-list-item
 
-router.post('/:id/items', async (req, res) => {
+router.post('/:id/items', VerifyJWT, async (req, res) => {
     await AddShoppingListItemAbl(req, res)
 })
 
-router.put('/:id/items/:itemId', async (req, res) => {
+router.put('/:id/items/:itemId', VerifyJWT, async (req, res) => {
     await UpdateShoppingListItemAbl(req, res)
 })
 
-router.delete('/:id/items/:itemId', async (req, res) => {  
+router.delete('/:id/items/:itemId', VerifyJWT, async (req, res) => {  
     await RemoveShoppingListItemAbl(req, res)
 })
 
 
 // shopping-list-user
 
-router.post('/:id/users', async (req, res) => {
+router.post('/:id/users', VerifyJWT, async (req, res) => {
     await AddShoppingListUserAbl(req, res)
 })
 
-router.delete('/:id/users/:userId', async (req, res) => {
+router.delete('/:id/users/:userId', VerifyJWT, async (req, res) => {
     await RemoveShoppingListUserAbl(req, res)
 })
 

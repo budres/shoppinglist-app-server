@@ -2,6 +2,8 @@ const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
 const UserDao = require('../../dao/user-dao')
 
+const isOwner = require('../../abl/utils/user-validation')
+
 const listDao = new ListDao()
 const userDao = new UserDao()
 
@@ -16,12 +18,20 @@ const paramsSchema = {
 const bodySchema = {
     type: "object",
     properties: {
-        userTag: { type: "string" }
+        tag: { type: "string" }
     },
-    required: ["userTag"]
+    required: ["tag"]
 }
 
 const AddShoppingListUserAbl = async (req, res) => {
+    const userId = req.user.id
+    const { id } = req.params
+
+    if (!await isOwner(userId, id)) {
+        res.status(403).json({ message: 'Forbidden' })
+        return
+    }
+
     const ajv = new Ajv()
 
     const validParams = ajv.validate(paramsSchema, req.params)
@@ -29,18 +39,21 @@ const AddShoppingListUserAbl = async (req, res) => {
         res.status(400).json(ajv.errors)
         return
     }
-    const { id } = req.params
 
     const validBody = ajv.validate(bodySchema, req.body)
     if (!validBody) {
         res.status(400).json(ajv.errors)
         return
     }
-    const { userTag } = req.body
+    const { tag } = req.body
 
-    const userId = await userDao.getUserByTag(userTag)
+    const addedUserId = await userDao.getUserByTag(tag)
+    if (addedUserId.error) {
+        res.status(404).json({ message: 'User not found' })
+        return
+    }
 
-    let result = await listDao.addShoppingListUser(id, userId)
+    let result = await listDao.addShoppingListUser(id, addedUserId)
 
     const members = await userDao.getUsersById(result.members)
     const owner = members.find(member => member.id === result.owner)

@@ -1,5 +1,6 @@
 const {v4: uuid} = require('uuid')
 const USERS = require('./USERS')
+const { DaoError, DAO_ERRORS } = require('../errors/dao')
 
 
 class UserDao {
@@ -8,7 +9,10 @@ class UserDao {
     }
 
     async getUserById(id) {
-        return USERS.find(user => user.id === id)
+        const idx = USERS.findIndex(user => user.id === id)
+        if (idx === -1) return new DaoError(DAO_ERRORS.userNotFound, `User with id ${id} not found`, 'getUserById')
+
+        return USERS[idx]
     }
 
     async getUsersById(ids) {
@@ -16,7 +20,12 @@ class UserDao {
     }
 
     async getUserByTag(tag) {
-        return USERS.find(user => user.tag === tag)
+        const idx = USERS.findIndex(user => user.tag === tag)
+        if (idx === -1) throw new DaoError(DAO_ERRORS.userNotFound, `User with tag ${tag} not found`, 'getUserByTag')
+
+        console.log(USERS[idx])
+
+        return USERS[idx]
     }
 
     async createUser(name, tag, password) {

@@ -2,6 +2,8 @@ const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
 const UserDao = require('../../dao/user-dao')
 
+const isMember = require('../../abl/utils/user-validation')
+
 const listDao = new ListDao()
 const userDao = new UserDao()
 
@@ -15,6 +17,14 @@ const paramsSchema = {
 }
 
 const RemoveShoppingListItemAbl = async (req, res) => {
+    const userId = req.user.id
+    const { id } = req.params
+
+    if (!await isMember(userId, id)) {
+        res.status(403).json({ message: 'Forbidden' })
+        return
+    }
+
     const ajv = new Ajv()
     
     const validParams = ajv.validate(paramsSchema, req.params)
@@ -23,7 +33,7 @@ const RemoveShoppingListItemAbl = async (req, res) => {
         return
     }
 
-    const { id, itemId } = req.params
+    const { itemId } = req.params
 
     let result = await listDao.removeShoppingListItem(id, itemId)
     
