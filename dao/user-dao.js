@@ -10,7 +10,7 @@ class UserDao {
 
     async getUserById(id) {
         const idx = USERS.findIndex(user => user.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.userNotFound, `User with id ${id} not found`)
+        if (idx === -1) throw new DaoError(DAO_ERRORS.userNotFound, `User not found`)
 
         return USERS[idx]
     }

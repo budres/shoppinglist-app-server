@@ -55,7 +55,7 @@ const UpdateShoppingListItemAbl = async (req, res) => {
 
         let result = await listDao.updateShoppingListItem(id, itemId, name, isCompleted)
 
-        const members = await userDao.getUsersById(result.members)
+        const members = (await userDao.getUsersById(result.members)).map(member => ({ id: member.id, name: member.name, tag: member.tag }))
         const owner = members.find(member => member.id === result.owner)
 
         res.json({

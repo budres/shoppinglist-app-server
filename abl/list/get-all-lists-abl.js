@@ -8,6 +8,7 @@ const GetAllShoppingListsAbl = async (req, res) => {
     try {
         const result = await listDao.getAllShoppingLists()
         // map and filter combined
+        // filter out lists where user is not a member
         const filteredLists = result.reduce((accumulator, list) => {
             if (list.members.includes(req.user.id)) {
                 accumulator.push({
