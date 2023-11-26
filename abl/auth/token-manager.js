@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken')
 const UserDao = require('../../dao/user-dao')
+const { ABL_ERRORS } = require('../../errors/abl')
 
 const userDao = new UserDao()
 
-const JWT_SECRET = '78b789459845v49j8v4980c4298'
+const JWT_SECRET = 'jwtsecret7mv5m435c8795c4m7c542mc5o5cmu'
 
 const NewJWT = async (userId) => {
     // TODO handle expiration
@@ -16,25 +17,26 @@ const GetUserIdFromJWT = (token) => {
 }
 
 const VerifyJWT = async (req, res, next) => {
-    const token = req.header('Authorization')
-
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized' })
-    }
-
     try {
-        const userId = GetUserIdFromJWT(token)
-        const user = await userDao.getUserById(userId)
-        if (!user) {
-            return res.status(401).json({ message: 'Invalid token' })
+
+        const token = req.header('Authorization')
+        if (!token) {
+            return res.status(401).json({ code: ABL_ERRORS.missingToken, message: 'Missing token' })
         }
+
+        const userId = GetUserIdFromJWT(token)
+        if (!userId) {
+            return res.status(401).json({ code: ABL_ERRORS.invalidToken, message: 'Invalid token' })
+        }
+        
+        const user = await userDao.getUserById(userId)
 
         req.user = user
 
         next()
-    } catch (error) {
-        return res.status(401).json({ message: 'Invalid token' })
+    } catch (err) {
+        res.status(401).json({ code: ABL_ERRORS.invalidToken, message: 'Invalid token: ' + err.message })
     }
 }
 
-module.exports = {NewJWT, VerifyJWT}
+module.exports = { NewJWT, VerifyJWT }

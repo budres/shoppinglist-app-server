@@ -26,17 +26,14 @@ const isOwner = async (userId, listId) => {
 const isTagTaken = async (tag) => {
     try {
         await userDao.getUserByTag(tag)
-        return [true, null]
-    } catch (error) {
-        if (error instanceof DaoError) {
-            switch (error.name) {
-                case DAO_ERRORS.userNotFound:
-                    return [false, null]
-                default:
-                    return [true, new AblError(ABL_ERRORS.unknown, error.message, 'isTagTaken<' + error.stack)]
-            }
+        return [true, new AblError(ABL_ERRORS.tagTaken, `Tag ${tag} is already taken`)]
+    } catch (err) {
+        if (err.code === DAO_ERRORS.userNotFound) {
+            return [false, null]
         }
+        return [true, new AblError(ABL_ERRORS.unknown, error.message)]
     }
 }
+
 
 module.exports = isTagTaken, isOwner, isMember

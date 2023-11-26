@@ -1,21 +1,21 @@
 let USERS = [
     {
         id: "test",
-        name: "User 1",
-        tag: "@user1",
-        password: ""
+        name: "Test User",
+        tag: "@test",
+        password: '$2b$10$NCttnsVHbPrIpFTa0ZILM.tTdv.9/ZYUyTaz3nggTnDqhdNItUpMK'
+    },
+    {
+        id: "1",
+        name: "Jan Novak",
+        tag: "@jannovak",
+        password: '$2b$10$NCttnsVHbPrIpFTa0ZILM.tTdv.9/ZYUyTaz3nggTnDqhdNItUpMK'
     },
     {
         id: "2",
-        name: "User 2",
-        tag: "@user2",
-        password: ""
-    },
-    {
-        id: "session",
-        name: "Session User",
-        tag: "@session",
-        password: ""
+        name: "Jaromir Nohavica",
+        tag: "@jarmirrukavica",
+        password: '$2b$10$NCttnsVHbPrIpFTa0ZILM.tTdv.9/ZYUyTaz3nggTnDqhdNItUpMK'
     }
 ]
 

@@ -10,7 +10,7 @@ class UserDao {
 
     async getUserById(id) {
         const idx = USERS.findIndex(user => user.id === id)
-        if (idx === -1) return new DaoError(DAO_ERRORS.userNotFound, `User with id ${id} not found`, 'getUserById')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.userNotFound, `User with id ${id} not found`)
 
         return USERS[idx]
     }
@@ -21,9 +21,7 @@ class UserDao {
 
     async getUserByTag(tag) {
         const idx = USERS.findIndex(user => user.tag === tag)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.userNotFound, `User with tag ${tag} not found`, 'getUserByTag')
-
-        console.log(USERS[idx])
+        if (idx === -1) throw new DaoError(DAO_ERRORS.userNotFound, `User with tag ${tag} not found`)
 
         return USERS[idx]
     }

@@ -32,9 +32,7 @@ class ListDao {
     // find list by id and return it
     async getShoppingList(id) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) return new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'getShoppingList')
-
-        throw new Error('test')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         return SHOPPING_LISTS[idx]
     }
@@ -42,7 +40,7 @@ class ListDao {
     // find list by id, update it and return it
     async updateShoppingList(id, name, isArchived) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) return new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'updateShoppingList')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         let list = SHOPPING_LISTS[idx]
 
@@ -57,7 +55,7 @@ class ListDao {
     // find list by id and remove it
     async removeShoppingList(id) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'removeShoppingList')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         SHOPPING_LISTS.splice(idx, 1)
 
@@ -67,7 +65,7 @@ class ListDao {
     // find list by id, append item and return it
     async addShoppingListItem(id, name) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'addShoppingListItem')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         let list = SHOPPING_LISTS[idx]
 
@@ -85,12 +83,12 @@ class ListDao {
     // find list by id, find item by itemId, update it and return list
     async updateShoppingListItem(id, itemId, name, isCompleted) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'updateShoppingListItem')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         let list = SHOPPING_LISTS[idx]
 
         const itemIdx = list.items.findIndex(item => item.id === itemId)
-        if (itemIdx === -1) throw new DaoError(DAO_ERRORS.itemNotFound, `Item with id ${itemId} in list ${id} not found`, 'updateShoppingListItem')
+        if (itemIdx === -1) throw new DaoError(DAO_ERRORS.itemNotFound, `Item with id ${itemId} in list ${id} not found`)
 
         let item = list.items[itemIdx]
 
@@ -106,12 +104,12 @@ class ListDao {
     // find list by id, find item by itemId and remove it
     async removeShoppingListItem(id, itemId) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'removeShoppingListItem')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         let list = SHOPPING_LISTS[idx]
 
         const itemIdx = list.items.findIndex(item => item.id === itemId)
-        if (itemIdx === -1) throw new DaoError(DAO_ERRORS.itemNotFound, `Item with id ${itemId} in list ${id} not found`, 'removeShoppingListItem')
+        if (itemIdx === -1) throw new DaoError(DAO_ERRORS.itemNotFound, `Item with id ${itemId} in list ${id} not found`)
 
         list.items.splice(itemIdx, 1)
         SHOPPING_LISTS[idx] = list
@@ -122,11 +120,11 @@ class ListDao {
     // find list by id, append user and return it
     async addShoppingListUser(id, userId) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'addShoppingListUser')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         let list = SHOPPING_LISTS[idx]
 
-        if (list.members.includes(userId)) throw new DaoError(DAO_ERRORS.userAlreadyMember, `User with id ${userId} is already a member of list ${id}`, 'addShoppingListUser')
+        if (list.members.includes(userId)) throw new DaoError(DAO_ERRORS.userAlreadyMember, `User with id ${userId} is already a member of list ${id}`)
 
         list.members.push(userId)
 
@@ -138,12 +136,12 @@ class ListDao {
     // find list by id, find user by userId and remove it
     async removeShoppingListUser(id, userId) {
         const idx = SHOPPING_LISTS.findIndex(list => list.id === id)
-        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`, 'removeShoppingListUser')
+        if (idx === -1) throw new DaoError(DAO_ERRORS.listNotFound, `List with id ${id} not found`)
 
         let list = SHOPPING_LISTS[idx]
 
-        const userIdx = list.members.findIndex(user => user.id === userId)
-        if (userIdx === -1) throw new DaoError(DAO_ERRORS.userNotMember, `User with id ${userId} in list ${id} not found`, 'removeShoppingListUser')
+        const userIdx = list.members.findIndex(user => user === userId)
+        if (userIdx === -1) throw new DaoError(DAO_ERRORS.userNotMember, `User with id ${userId} in list ${id} not found`)
 
         list.members.splice(userIdx, 1)
         SHOPPING_LISTS[idx] = list

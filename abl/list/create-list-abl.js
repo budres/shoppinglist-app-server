@@ -1,6 +1,8 @@
 const Ajv = require('ajv')
 const ListDao = require('../../dao/list-dao')
 const UserDao = require('../../dao/user-dao')
+const { ABL_ERRORS } = require('../../errors/abl')
+const { DaoError } = require('../../errors/dao')
 
 const listDao = new ListDao()
 const userDao = new UserDao()
@@ -14,12 +16,12 @@ const bodySchema = {
 }
 
 const CreateShoppingListAbl = async (req, res) => {
+    try {
     const ajv = new Ajv()
 
     const validBody = ajv.validate(bodySchema, req.body)
     if (!validBody) {
-        res.status(400).json(ajv.errors)
-        return
+        return res.status(400).json({ code: ABL_ERRORS.invalidBody, message: ajv.errors })
     }
 
     const { name } = req.body
@@ -35,6 +37,13 @@ const CreateShoppingListAbl = async (req, res) => {
         members,
         owner
     })
+    } catch (err) {
+        if (err instanceof DaoError) {
+            return res.status(400).json({ code: err.code, message: err.message })
+        }
+
+        res.status(500).json({ code: ABL_ERRORS.unknown, message: err.message })
+    }
 }
 
 module.exports = CreateShoppingListAbl  
