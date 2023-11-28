@@ -35,7 +35,7 @@ const UpdateShoppingListItemAbl = async (req, res) => {
         const userId = req.user.id
         const { id } = req.params
 
-        if (!await isMember(userId, id)) {
+        if (await isMember(userId, id) === false) {
             return res.status(403).json({ code: ABL_ERRORS.forbidden, message: 'You are not allowed to call this feature' })
         }
 

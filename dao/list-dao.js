@@ -45,7 +45,7 @@ class ListDao {
         let list = SHOPPING_LISTS[idx]
 
         if (name) list.name = name
-        if (isArchived) list.isArchived = isArchived
+        if (isArchived === true || isArchived == false) list.isArchived = isArchived
 
         SHOPPING_LISTS[idx] = list
 
@@ -93,7 +93,7 @@ class ListDao {
         let item = list.items[itemIdx]
 
         if (name) item.name = name
-        if (isCompleted) item.isCompleted = isCompleted
+        if (isCompleted === true || isCompleted == false) item.isCompleted = isCompleted
 
         list.items[itemIdx] = item
         SHOPPING_LISTS[idx] = list
