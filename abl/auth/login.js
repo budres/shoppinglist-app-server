@@ -36,7 +36,7 @@ const Login = async (req, res) => {
 
         const token = await NewJWT(user.id)
 
-        res.json({ token })
+        res.json({ token, user: { id: user.id, tag: user.tag, name: user.name} })
     } catch (err) {
         if (err instanceof DaoError) {
             return res.status(400).json({ code: err.code, message: err.message })
